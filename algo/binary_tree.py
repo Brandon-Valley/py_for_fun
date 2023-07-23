@@ -48,24 +48,22 @@ def get_in_order_for_level(bt_root, level):
     assert isinstance(level, int)
     assert level >= 0
 
-    def _get_result_list(cur_node = bt_root, cur_level = 0, result_list = None):
-        if not result_list:
-            result_list = []
+    result = []
 
-        if cur_level == level:
-            # print(cur_node.value, end=" ")
-            result_list.append(cur_node.value)
-            return result_list
+    def _inner(cur_node = bt_root, cur_lvl = 0):
+        nonlocal result
+
+        if cur_lvl == level:
+            result.append(cur_node.value)
+            return
         
         if cur_node.left_node:
-            result_list.extend(_get_result_list(cur_node.left_node, cur_level + 1))
+            _inner(cur_node.left_node, cur_lvl + 1)
         if cur_node.right_node:
-            result_list.extend(_get_result_list(cur_node.right_node, cur_level + 1))
+            _inner(cur_node.right_node, cur_lvl + 1)
 
-        return result_list
-
-    return _get_result_list()
-
+    _inner()
+    return result
 
 
 
